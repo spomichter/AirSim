@@ -60,7 +60,7 @@ else #linux
         wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get update
     fi
-    sudo apt-get install -y clang-14 clang++-14 libc++-14-dev libc++abi-14-dev
+    sudo apt-get install -y clang-12 clang++-12 libc++-12-dev libc++abi-12-dev
 fi
 
 if ! which cmake; then
@@ -95,6 +95,11 @@ else #linux
 
     # install additional tools
     sudo apt-get install -y build-essential unzip
+
+        # Create necessary symbolic links for compilation
+    sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o /usr/lib/crtbegin.o
+    sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o /usr/lib/crtend.o
+
 
     if version_less_than_equal_to "$cmake_ver" "$MIN_CMAKE_VERSION"; then
         # in ubuntu 18 docker CI, avoid building cmake from scratch to save time
